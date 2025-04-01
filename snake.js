@@ -41,6 +41,7 @@ class Snake {
     this.createGrid(40, 40);
     this.spawnApple();
     this.updateGrid();
+    this.setupDraw();
 
     // document.addEventListener('keypress', onKeyPress);
     // button.addEventListener('click', main);
@@ -98,7 +99,7 @@ class Snake {
   /**
    * @description update grid with snake location and apple
    */
-  updateGrid() {
+  updateGrid() { // todo when we clear we clear the 3s as well
     this.clearGrid(); // start with a blank slate
     // first the snake
     const snakePos = this.SnakeBody.getPosition();
@@ -162,9 +163,9 @@ class Snake {
   }
 
   /**
-   * @description draw the game
+   * @description todo
    */
-  draw() {
+  setupDraw() {
     // set the scale and transform
     this.context.setTransform(1, 0, 0, 1, 0, 0); // reset
     this.context.translate(this.xPad, this.yPad);
@@ -197,6 +198,67 @@ class Snake {
             this.SQUARESIZE, this.SQUARESIZE);
       }
     }
+  }
+
+  /**
+   * @description draw the game
+   */
+  draw() {
+    // set the scale and transform
+    this.context.setTransform(1, 0, 0, 1, 0, 0); // reset
+    this.context.translate(this.xPad, this.yPad);
+    this.context.scale(this.scale, this.scale);
+
+    // let's just worry about the area around the snake for now.
+    // iterate the snakes position
+    const snakePos = this.SnakeBody.getPosition();
+    for (let i = 0; i < snakePos.length; i++) {
+      if (!snakePos[i]) {
+        return;
+      }
+      for (let j = 0; j < 4; j++) { // this sucks asscheeks its just a POC
+        let x;
+        let y;
+        switch (j) {
+          case 0:
+            x = snakePos[i][0];
+            y = snakePos[i][1]-1;
+            break;
+          case 1:
+            x = snakePos[i][0]+1;
+            y = snakePos[i][1];
+            break;
+          case 2:
+            x = snakePos[i][0];
+            y = snakePos[i][1]+1;
+            break;
+          case 3:
+            x = snakePos[i][0]-1;
+            y = snakePos[i][1];
+            break;
+        }
+        if (this.grid[y] && this.grid[y][x] != null) {
+          if (this.grid[y][x] === 1) { // snake
+            this.context.fillStyle = '#37942b';
+            this.context.fillRect(x * this.SQUARESIZE, y * this.SQUARESIZE,
+                this.SQUARESIZE, this.SQUARESIZE);
+          } else if (this.grid[y][x] == 0) { // empty square
+            this.context.fillStyle = '#ffffff';
+            this.context.fillRect(x * this.SQUARESIZE, y * this.SQUARESIZE,
+                this.SQUARESIZE, this.SQUARESIZE);
+          }
+          this.context.strokeStyle = '#b1b3b1';
+          this.context.strokeRect(x * this.SQUARESIZE, y * this.SQUARESIZE,
+              this.SQUARESIZE, this.SQUARESIZE);
+        }
+      }
+    }
+    // now the apple, we dont need to track its old location cause
+    // thats the snakes head
+    this.context.fillStyle = '#e84d2a';
+    this.context.fillRect(this.apple[0] * this.SQUARESIZE,
+        this.apple[1] * this.SQUARESIZE,
+        this.SQUARESIZE, this.SQUARESIZE);
   }
 
   /**
