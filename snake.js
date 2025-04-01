@@ -148,12 +148,10 @@ class Snake {
       this.framecount++;
       this.then = this.now - (this.delta % this.INTERVAL);
 
-      if (this.framecount >= 0) { // todo play with this
+      if (!this.gameOver) {
         this.SnakeBody.moveForward();
         this.detectEvent();
         this.framecount = 0;
-      }
-      if (!this.gameOver) {
         this.updateGrid(); // todo we lose efficency here
         this.draw(); // todo we lose a lot of efficenct here
       }
