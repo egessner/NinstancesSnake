@@ -35,11 +35,14 @@ class Snake {
     this.grid;
     this.score = 0;
     this.apple;
+    this.oldApple = [];
     this.gameOver = false;
     this.SnakeBody = new SnakeBody(20, 20, 10);
+    this.oldSnakeLocation = [];
 
     this.createGrid(40, 40);
-    this.spawnApple();
+    this.spawnApple(); // just realized this is problematic
+    this.oneTimeGridSetup();
     this.updateGrid();
 
     // document.addEventListener('keypress', onKeyPress);
@@ -96,10 +99,9 @@ class Snake {
   }
 
   /**
-   * @description update grid with snake location and apple
+   * @description todo
    */
-  updateGrid() {
-    this.clearGrid(); // start with a blank slate
+  oneTimeGridSetup() {
     // first the snake
     const snakePos = this.SnakeBody.getPosition();
     for (let i = 0; i < snakePos.length; i++) { // iterate the SnakeBody pos
@@ -112,6 +114,21 @@ class Snake {
     }
     // next the apple
     this.grid[this.apple[1]][this.apple[0]] = 2; // ugly!
+  }
+
+  /**
+   * @description update grid with snake location and apple
+   */
+  updateGrid() {
+    // ok so we only want changes to snake and apple
+    // so lets make an old snake and old apple array
+    // starting with the snake array of 2n array
+    this.oldSnakeLocation.forEach((square) => {
+      this.grid[square[1]][square[0]] = 0;
+    });
+    this.SnakeBody.getPosition().forEach((square) => {
+      this.grid[square[1]][square[0]] = 1;
+    });
   }
 
   /**
@@ -148,12 +165,11 @@ class Snake {
       this.framecount++;
       this.then = this.now - (this.delta % this.INTERVAL);
 
-      if (this.framecount >= 0) { // todo play with this
+      if (!this.gameOver) {
+        this.oldSnakeLocation = this.SnakeBody.getPosition();
         this.SnakeBody.moveForward();
         this.detectEvent();
         this.framecount = 0;
-      }
-      if (!this.gameOver) {
         this.updateGrid(); // todo we lose efficency here
         this.draw(); // todo we lose a lot of efficenct here
       }
