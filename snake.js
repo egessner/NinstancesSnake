@@ -11,7 +11,7 @@ class Snake {
    * @param {int} yPad
    */
   constructor(scale, xPad, yPad) {
-    this.SQUARESIZE = 20;
+    this.SQUARESIZE = scale;
     this.FPS = 10; // 10 should be fine to scale up with
     this.INTERVAL = 1000 / this.FPS;
 
@@ -168,9 +168,6 @@ class Snake {
    */
   draw() {
     // set the scale and transform
-    this.context.setTransform(1, 0, 0, 1, 0, 0); // reset
-    this.context.translate(this.xPad, this.yPad);
-    this.context.scale(this.scale, this.scale);
     // outline
     this.context.strokeRect(0, 0, this.mainCanvas.width,
         this.mainCanvas.height);
@@ -179,23 +176,28 @@ class Snake {
       for (let x = 0; x < this.grid[y].length; x++) {
         if (this.grid[y][x] == 3) { // border
           this.context.fillStyle = '#666565';
-          this.context.fillRect(x * this.SQUARESIZE, y * this.SQUARESIZE,
+          this.context.fillRect(this.xPad + x * this.SQUARESIZE,
+              this.yPad + y * this.SQUARESIZE,
               this.SQUARESIZE, this.SQUARESIZE);
         } else if (this.grid[y][x] == 1) { // snake
           this.context.fillStyle = '#37942b';
-          this.context.fillRect(x * this.SQUARESIZE, y * this.SQUARESIZE,
+          this.context.fillRect(this.xPad + x * this.SQUARESIZE,
+              this.yPad + y * this.SQUARESIZE,
               this.SQUARESIZE, this.SQUARESIZE);
         } else if (this.grid[y][x] == 2) { // apple
           this.context.fillStyle = '#e84d2a';
-          this.context.fillRect(x * this.SQUARESIZE, y * this.SQUARESIZE,
+          this.context.fillRect(this.xPad + x * this.SQUARESIZE,
+              this.yPad + y * this.SQUARESIZE,
               this.SQUARESIZE, this.SQUARESIZE);
         } else { // empty square
           this.context.fillStyle = '#ffffff';
-          this.context.fillRect(x * this.SQUARESIZE, y * this.SQUARESIZE,
+          this.context.fillRect(this.xPad + x * this.SQUARESIZE,
+              this.yPad + y * this.SQUARESIZE,
               this.SQUARESIZE, this.SQUARESIZE);
         }
         this.context.strokeStyle = '#b1b3b1';
-        this.context.strokeRect(x * this.SQUARESIZE, y * this.SQUARESIZE,
+        this.context.strokeRect(this.xPad + x * this.SQUARESIZE,
+            this.yPad + y * this.SQUARESIZE,
             this.SQUARESIZE, this.SQUARESIZE);
       }
     }

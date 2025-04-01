@@ -46,7 +46,8 @@ function main() {
  */
 function createSnakeArray() {
   const sqr = Math.ceil(Math.sqrt(n));
-  const scale = sqr / Math.pow(sqr, 2);
+  // const scale = sqr / Math.pow(sqr, 2);
+  const scale = canvas.width / (40 * sqr);
 
   // create the array
   snakeArr = [];
