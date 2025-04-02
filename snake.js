@@ -129,6 +129,16 @@ class Snake {
         this.killGame();
         break;
     }
+
+    // snake at max size
+    // 1479 should be every square thats not a border,
+    // leaving room for apple to spawn
+    if (this.SnakeBody.getLength() >= 1479) {
+      this.SnakeBody.resetSnakeSize();
+      // little ineffiecent cause we call this twice but its a rare case so f it
+      this.updateGrid();
+      this.setupDraw();
+    }
   }
 
   /**
@@ -163,10 +173,6 @@ class Snake {
     this.context.setTransform(1, 0, 0, 1, 0, 0); // reset
     this.context.translate(this.xPad, this.yPad);
     this.context.scale(this.scale, this.scale);
-    // outline
-    this.context.strokeRect(0, 0, this.mainCanvas.width,
-        this.mainCanvas.height);
-    // draw outline of each square, might comment out later
     for (let y = 0; y < this.grid.length; y++) {
       for (let x = 0; x < this.grid[y].length; x++) {
         if (this.grid[y][x] == 3) { // border

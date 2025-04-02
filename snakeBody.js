@@ -13,6 +13,7 @@ class SnakeBody {
     /* 1=N, 2=E, 3=S, 4=W */
     this.headDirection = Math.ceil(Math.random() * 4);
     this.length = initSize;
+    this.startingLength = initSize;
     // array w/ size of this.length, head is at 0
     this.position = new Array(this.length);
     this.position[0] = [initX, initY]; // fence post
@@ -95,5 +96,21 @@ class SnakeBody {
    */
   getHeadPosition() {
     return this.position[0];
+  }
+
+  /**
+   * @description return the length
+   * @return {int} length
+   */
+  getLength() {
+    return this.length;
+  }
+
+  /**
+   * @description reset snake to starting size
+   */
+  resetSnakeSize() {
+    this.position = this.position.slice(0, this.startingLength);
+    this.length = this.startingLength;
   }
 }
