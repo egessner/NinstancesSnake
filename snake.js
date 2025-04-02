@@ -145,8 +145,8 @@ class Snake {
         this.SnakeBody.moveForward();
         this.detectEvent();
         this.framecount = 0;
-        this.updateGrid(); // todo we lose efficency here
-        this.draw(); // todo we lose a lot of efficenct here
+        this.updateGrid();
+        this.draw();
       }
     }
     if (!this.gameOver) {
