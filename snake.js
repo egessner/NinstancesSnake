@@ -16,11 +16,7 @@ class Snake {
     this.INTERVAL = 1000 / this.FPS;
 
     this.mainCanvas = document.getElementById('mainCanvas');
-    // this.button = document.getElementById('restartButton');
-    // this.scoreLabel = document.getElementById('scoreLabel');
     this.context = this.mainCanvas.getContext('2d');
-    // this.context.translate(this.xPad, this.yPad);
-    // this.context.scale(this.scale, this.scale);
 
     this.scale = scale;
     this.xPad = xPad;
@@ -42,10 +38,6 @@ class Snake {
     this.spawnApple();
     this.updateGrid();
     this.setupDraw();
-
-    // document.addEventListener('keypress', onKeyPress);
-    // button.addEventListener('click', main);
-    // run();
   }
 
   /**
@@ -99,7 +91,7 @@ class Snake {
   /**
    * @description update grid with snake location and apple
    */
-  updateGrid() { // todo when we clear we clear the 3s as well
+  updateGrid() {
     this.clearGrid(); // start with a blank slate
     // first the snake
     const snakePos = this.SnakeBody.getPosition();
@@ -163,7 +155,8 @@ class Snake {
   }
 
   /**
-   * @description todo
+   * @description First time draw the game, after this we will only redraw
+   * the area around the snake to improve performance
    */
   setupDraw() {
     // set the scale and transform
@@ -201,7 +194,7 @@ class Snake {
   }
 
   /**
-   * @description draw the game
+   * @description Update the area around the snake and the apple
    */
   draw() {
     // set the scale and transform
@@ -211,12 +204,14 @@ class Snake {
 
     // let's just worry about the area around the snake for now.
     // iterate the snakes position
+    // i know this could be improved but if it fits it ships at a low flat rate
+    // worry less about making everything pretty, instead code dude
     const snakePos = this.SnakeBody.getPosition();
     for (let i = 0; i < snakePos.length; i++) {
       if (!snakePos[i]) {
         return;
       }
-      for (let j = 0; j < 4; j++) { // this sucks asscheeks its just a POC
+      for (let j = 0; j < 4; j++) {
         let x;
         let y;
         switch (j) {
@@ -277,7 +272,7 @@ class Snake {
   }
 
   /**
-   * @description
+   * @description end this instance of tetris
    */
   killGame() {
     this.gameOver = true;

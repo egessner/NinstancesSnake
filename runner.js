@@ -1,11 +1,3 @@
-/**
- * - CreateSnakeArray()
- *  - given a number of instances of snake n, create square of games.
- *    we'll need a yPad and an xPad to use context.transform on and a scale to
- *    use context.scale on. pass those as params in the constructor and then
- *    slightly alter the draw function to encorporate these and we wont have
- *    much else to change in snake.js
- */
 /* eslint linebreak-style: ['error', 'windows'] */
 // GLOBALS
 const canvas = document.getElementById('mainCanvas');
@@ -34,10 +26,6 @@ function main() {
 
   createSnakeArray();
   snakeArr.forEach((row) => row.forEach((snake) => snake.run()));
-  // snakeArr[0][0].run();
-
-  // todo on key press and all that shit
-
 }
 
 /**
@@ -91,7 +79,6 @@ function onKeyPress(keypress) {
   }
   if (newDirection) {
     snakeArr.forEach((row) => row.forEach((snake) => snake.turn(newDirection)));
-    // snake.turn(newDirection);
   }
 }
 main();
