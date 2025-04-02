@@ -54,7 +54,6 @@ function createSnakeArray() {
   }
   // remove null values
   snakeArr = snakeArr.map((row) => row.filter((snake) => snake != null));
-  console.log(snakeArr);
 }
 
 /**

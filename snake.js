@@ -276,9 +276,7 @@ class Snake {
    */
   killGame() {
     this.gameOver = true;
-    console.log('game over');
     // printGrid();
     cancelAnimationFrame(this.requestID);
-    // document.removeEventListener('keypress', onKeyPress);
   }
 }
